@@ -1,8 +1,5 @@
 
 const mapa = document.getElementById('mapaVisual');
-var leftColumn = document.querySelector('.left');
-var rightColumn = document.querySelector('.right');
-
 var map = L.map(mapa).setView([7.12728, -73.11920], 13);
 
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -57,3 +54,4 @@ citySelect.addEventListener("change", function () {
     console.log(selectedCity)
 
 });
+
