@@ -47,6 +47,26 @@ const getData = async() =>{
         
     }
 } 
+
+var searchInput = document.getElementById("searchInput");
+
+searchInput.addEventListener("input", function () {
+    var searchTerm = searchInput.value.toLowerCase(); // Obtener el texto de búsqueda en minúsculas
+
+    // Recorremos todos los marcadores y los ocultamos o mostramos según coincidan con la búsqueda
+    map.eachLayer(function (layer) {
+        if (layer instanceof L.Marker) {
+            var markerPopupText = layer.getPopup().getContent().toLowerCase();
+
+            if (markerPopupText.includes(searchTerm)) {
+                layer.addTo(map); // Mostrar el marcador si coincide con la búsqueda
+            } else {
+                map.removeLayer(layer); // Ocultar el marcador si no coincide con la búsqueda
+            }
+        }
+    });
+});
+
 getData(); 
 var citySelect = document.getElementById("citySelect");
 citySelect.addEventListener("change", function () {

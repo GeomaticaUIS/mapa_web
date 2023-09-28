@@ -3,7 +3,7 @@
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Page Title</title>
+    <title>Metadato Proyectos Geomática</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>  
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
@@ -30,43 +30,55 @@
 <body> 
     <div class="row">
     
-    <div id="mapaVisual" class="col s12 m8 l6">  </div>
-    
-    <div class="col s12 m4 l6" >
-
-        <h3 class="center-align blue-text text-darken-2">Informacion general    </h3> 
-        <div class="row">
-            <div class="col s6 offset-s3">
-                <div id="detalle_datos" class="card">
-                    <div class="card-content">
-                        <span class="card-title flow-text">Datos del proyecto seleccionado</span>
-                        <p>Codigo: <span id="codigo"></span></p>
-                        <p>Nombre del proyecto: <span id="nombre"></span></p>
-                        <p>Fecha: <span id="fecha"></span></p>
-                        <p>Tecnologia usada: <span id="tecnologia"></span></p>
-                        <p>Latitud: <span id="latitud"></span></p>
-                        <p>Longitud: <span id="longitud"></span></p>
-                        <p>Descripcion: <span id="descripcion"></span>  </p>
-                        <p>Area: <span id="area"></span>[Km <sup>2</sup>]</p> 
-                    </div>
-                    <div class="card-action">
-                        <p>Archivos disponibles:</p>
-                        <a href=""><span id="archivoLaz"></span></a>
-                        <a href=""><span id="archivoMosaico"></span></a>
-                    </div>
+        <div id="mapaVisual" class="col s12 m8 l6">  </div>
+        
+        <div class="col s12 m4 l6">
+            <div class="row">
+                <div class="col s12">
+                    <nav>
+                        <div class="nav-wrapper blue lighten-5">
+                            <form> 
+                                <div class="input-field">
+                                    <input id="searchInput" placeholder="Buscar por nombre, fecha, tecnología" type="search" >
+                                    <label class="label-icon" for="search"><i class="material-icons black-text">search</i></label> 
+                                    <i class="material-icons" id="clear-search">close</i>
+                                </div>  
+                            </form>
+                        </div>
+                    </nav> 
                 </div>
-            </div> 
+            </div>
+            <h3 class="center-align blue-text text-darken-2">Informacion general</h3> 
+            <div class="row">
+                <div class="col s12">
+                    <div id="detalle_datos" class="card">
+                        <div class="card-content">
+                            <span class="card-title flow-text">Datos del proyecto seleccionado</span>
+                            <p>Codigo: <span id="codigo"></span></p>
+                            <p>Nombre del proyecto: <span id="nombre"></span></p>
+                            <p>Fecha: <span id="fecha"></span></p>
+                            <p>Tecnologia usada: <span id="tecnologia"></span></p>
+                            <p>Latitud: <span id="latitud"></span></p>
+                            <p>Longitud: <span id="longitud"></span></p>
+                            <p>Descripcion: <span id="descripcion"></span>  </p>
+                            <p>Area: <span id="area"></span>[Km <sup>2</sup>]</p> 
+                        </div>
+                        <div class="card-action">
+                            <p>Archivos disponibles:</p>
+                            <a href=""><span id="archivoLaz"></span></a>
+                            <a href=""><span id="archivoMosaico"></span></a>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+            <div class="row">
+                <div id="div-select" class="input-field col s12">
+                    <select id="citySelect">
+                        <option disabled selected>Selecciona una ciudad:</option>      
+                    </select>                      
+                </div> 
+            </div>
         </div>
- 
-        <div class="row">
-        <div id="div-select" class="input-field col s12">
-            <select id="citySelect">
-                <option disabled selected>Selecciona una ciudad:</option>      
-            </select>                      
-        </div> 
-    </div>
-
-    </div>
 
         <br><br><br>
     </div>      
