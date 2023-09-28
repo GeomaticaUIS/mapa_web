@@ -90,6 +90,19 @@ var citySelect = document.getElementById("citySelect");
 citySelect.addEventListener("change", function () {
     var selectedCity = citySelect.value; 
     console.log(selectedCity)
+/*var indiceSeleccionado = citySelect.selectedIndex;
+    var textoSeleccionado = citySelect.options[indiceSeleccionado].text;
+    console.log(selectedCity, datosParseados, textoSeleccionado,marker);
+    datosParseados.forEach(function (item) {
+        if (item.TECNOLOGIA==  selectedCity) {
+            console.log(item.NOMBRE_PROYECTO)
+            // Muestra el marcador si la ciudad coincide con el filtro     
+             map.addTo(marker); 
 
+        } else {console.log(item.NOMBRE_PROYECTO)
+            // Oculta el marcador si no coincide con el filtro    
+            map.removeLayer(marker);
+        }
+    });*/
 });
 
