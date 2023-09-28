@@ -6,68 +6,86 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map); 
 
-const getData = async() =>{
-    var select = document.getElementById("citySelect");
-
-    const xhttp = new XMLHttpRequest();
-    xhttp.open('GET','metadato.json',true);
-    xhttp.send();
-    xhttp.onreadystatechange = function(){
-        if(this.readyState ==4 &&this.status==200){
-            //console.log(this.responseText);
-            let datosParseados= JSON.parse(this.responseText);
-            console.log(datosParseados);
-            datosParseados.forEach(element => { 
-                const myJsonLocal = JSON.stringify(element); 
-                localStorage.setItem(element.CODIGO,myJsonLocal);
-
-                var option = document.createElement("option");
-                option.value = element.CODIGO; // Valor de la opción
-                option.text = element.NOMBRE_PROYECTO; // Texto visible de la opción
-                select.appendChild(option);
-                console.log(option.value)
-
-                var marker = L.marker([element.Latitud, element.Longitud]).addTo(map); 
-                var popupContent = '<b>' + element.NOMBRE_PROYECTO + '</b><br>' + 'Fecha captura: ' + element.FECHA_CAPTURA;
-                marker.bindPopup(popupContent); 
-
-                marker.on('popupopen', function () {
-                    // Actualiza el contenido de la tarjeta con la información del popup
-                    document.getElementById("codigo").textContent = element.CODIGO; 
-                    document.getElementById("nombre").textContent =element.NOMBRE_PROYECTO;
-                    document.getElementById("fecha").textContent = element.FECHA_CAPTURA;
-                    document.getElementById("tecnologia").textContent = element.TECNOLOGIA;
-                    document.getElementById("latitud").textContent = element.Latitud+"°";
-                    document.getElementById("longitud").textContent = element.Longitud+"°";
-                    document.getElementById("descripcion").textContent = element.DESCRIPCION;
-                    document.getElementById("area").textContent = element.AREA; 
-                }); 
-            }); 
-        }
-        
-    }
-} 
-
 var searchInput = document.getElementById("searchInput");
 
+var allMarkers = []; // Store all markers in an array
+
+const showAllMarkers = () => {
+    allMarkers.forEach(function (marker) {
+        map.addLayer(marker);
+    });
+};
+
 searchInput.addEventListener("input", function () {
-    var searchTerm = searchInput.value.toLowerCase(); // Obtener el texto de búsqueda en minúsculas
+    var searchTerm = searchInput.value.toLowerCase();
 
-    // Recorremos todos los marcadores y los ocultamos o mostramos según coincidan con la búsqueda
-    map.eachLayer(function (layer) {
-        if (layer instanceof L.Marker) {
-            var markerPopupText = layer.getPopup().getContent().toLowerCase();
+    // Loop through all markers
+    allMarkers.forEach(function (marker) {
+        var markerPopupText = marker.getPopup().getContent().toLowerCase();
 
-            if (markerPopupText.includes(searchTerm)) {
-                layer.addTo(map); // Mostrar el marcador si coincide con la búsqueda
-            } else {
-                map.removeLayer(layer); // Ocultar el marcador si no coincide con la búsqueda
-            }
+        if (searchTerm === "" || markerPopupText.includes(searchTerm)) {
+            map.addLayer(marker); // Show the marker if it matches the search or if the input is empty
+        } else {
+            map.removeLayer(marker); // Hide the marker if it doesn't match the search
         }
     });
 });
 
-getData(); 
+document.addEventListener("DOMContentLoaded", function () {
+    var clearSearchIcon = document.getElementById("clear-search");
+    var searchInput = document.getElementById("searchInput");
+
+    clearSearchIcon.addEventListener("click", function () {
+        // Clear the input field
+        searchInput.value = "";
+
+        // Show all markers again
+        showAllMarkers();
+    });
+});
+
+const getData = async () => {
+    var select = document.getElementById("citySelect");
+
+    const xhttp = new XMLHttpRequest();
+    xhttp.open("GET", "metadato.json", true);
+    xhttp.send();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            let datosParseados = JSON.parse(this.responseText);
+            datosParseados.forEach((element) => {
+                const myJsonLocal = JSON.stringify(element);
+                localStorage.setItem(element.CODIGO, myJsonLocal);
+
+                var option = document.createElement("option");
+                option.value = element.CODIGO;
+                option.text = element.NOMBRE_PROYECTO;
+                select.appendChild(option);
+
+                var marker = L.marker([element.Latitud, element.Longitud]).addTo(map);
+                var popupContent = '<b>' + element.NOMBRE_PROYECTO + '</b><br>' + 'Fecha captura: ' + element.FECHA_CAPTURA;
+                marker.bindPopup(popupContent);
+
+                marker.on("popupopen", function () {
+                    document.getElementById("codigo").textContent = element.CODIGO;
+                    document.getElementById("nombre").textContent = element.NOMBRE_PROYECTO;
+                    document.getElementById("fecha").textContent = element.FECHA_CAPTURA;
+                    document.getElementById("tecnologia").textContent = element.TECNOLOGIA;
+                    document.getElementById("latitud").textContent = element.Latitud + "°";
+                    document.getElementById("longitud").textContent = element.Longitud + "°";
+                    document.getElementById("descripcion").textContent = element.DESCRIPCION;
+                    document.getElementById("area").textContent = element.AREA;
+                });
+
+                // Add each marker to the array
+                allMarkers.push(marker);
+            });
+        }
+    };
+};
+
+getData();
+
 var citySelect = document.getElementById("citySelect");
 citySelect.addEventListener("change", function () {
     var selectedCity = citySelect.value; 
